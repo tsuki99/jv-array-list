@@ -65,11 +65,11 @@ public class ArrayList<T> implements List<T> {
         if (checkIfIndexOfBounds(index)) {
             throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
         } else {
-                final T removedValue = storage[index];
-                System.arraycopy(storage, index + 1, storage, index, size - index - 1);
-                size--;
+            final T removedValue = storage[index];
+            System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+            size--;
 
-                return removedValue;
+            return removedValue;
         }
     }
 
