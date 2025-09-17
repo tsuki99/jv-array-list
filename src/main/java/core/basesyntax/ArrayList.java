@@ -22,14 +22,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(T value, int index) {
-        if (index < STARTER_INDEX || index > size) {
-            throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
-        } else {
-            growIfArrayFull();
-            System.arraycopy(storage, index, storage, index + 1, size - index);
-            storage[index] = value;
-            size++;
-        }
+        checkIfIndexFits(index);
+        growIfArrayFull();
+        System.arraycopy(storage, index, storage, index + 1, size - index);
+        storage[index] = value;
+        size++;
     }
 
     @Override
@@ -43,34 +40,23 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        if (checkIfIndexOfBounds(index)) {
-            throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
-        } else {
-
-            return storage[index];
-        }
+        checkIfIndexOfBounds(index);
+        return storage[index];
     }
 
     @Override
     public void set(T value, int index) {
-        if (checkIfIndexOfBounds(index)) {
-            throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
-        } else {
-            storage[index] = value;
-        }
+        checkIfIndexOfBounds(index);
+        storage[index] = value;
     }
 
     @Override
     public T remove(int index) {
-        if (checkIfIndexOfBounds(index)) {
-            throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
-        } else {
-            final T removedValue = storage[index];
-            System.arraycopy(storage, index + 1, storage, index, size - index - 1);
-            size--;
-
-            return removedValue;
-        }
+        checkIfIndexOfBounds(index);
+        final T removedValue = storage[index];
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+        size--;
+        return removedValue;
     }
 
     @Override
@@ -101,8 +87,16 @@ public class ArrayList<T> implements List<T> {
         }
     }
 
-    private boolean checkIfIndexOfBounds(int index) {
-        return index < STARTER_INDEX || index >= size;
+    private void checkIfIndexOfBounds(int index) {
+        if (index < STARTER_INDEX || index >= size) {
+            throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
+        }
+    }
+
+    private void checkIfIndexFits(int index) {
+        if (index < STARTER_INDEX || index > size) {
+            throw new ArrayListIndexOutOfBoundsException(index + INDEX_OUT_OF_BOUND_MESSAGE);
+        }
     }
 
     private boolean checkIfElementExist(T element, T elementFromStorage) {
